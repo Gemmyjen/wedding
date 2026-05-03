@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wedding TO-DO</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper:   #faf8f4;
+  --paper2:  #f5f0e8;
+  --paper3:  #ede5d8;
+  --ink:     #2e2620;
+  --ink2:    #6b5a4e;
+  --ink3:    #a8968a;
+  --blush:   #d4a0a0;
+  --blush2:  #e8c8c0;
+  --blush3:  #f5e8e4;
+  --sage:    #8aaa8a;
+  --sage2:   #b8ceb8;
+  --sage3:   #e8f0e8;
+  --mauve:   #9a7a8a;
+  --gold:    #c8a870;
+  --gold2:   #e8d4a8;
+  --border:  #e0d4c4;
+  --done:    #a8baa8;
+  --r: 0px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--paper);
+  font-family: 'Noto Sans KR', sans-serif;
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════
+   HEADER — Pinterest invitation card
+═══════════════════════════════ */
+.site-header {
+  background: var(--paper);
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+}
+
+/* Subtle floral background pattern via SVG */
+.site-header::before {
+  content:'';
+  position:absolute; inset:0;
+  background-image:
+    radial-gradient(ellipse 60% 40% at 15% 20%, rgba(212,160,160,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 85% 80%, rgba(138,170,138,0.14) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(200,168,112,0.07) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+.header-card {
+  position: relative;
+  max-width: 680px;
+  margin: 48px auto 0;
+  padding: 52px 60px 44px;
+  text-align: center;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(8px);
+}
+
+/* Corner botanical ornaments */
+.header-card::before,
+.header-card::after {
+  content: '';
+  position: absolute;
+  width: 72px; height: 72px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23c8b090' stroke-width='1' opacity='0.6'%3E%3Cellipse cx='20' cy='60' rx='14' ry='6' transform='rotate(-30 20 60)'/%3E%3Cellipse cx='30' cy='50' rx='12' ry='5' transform='rotate(-15 30 50)'/%3E%3Cellipse cx='45' cy='35' rx='10' ry='4' transform='rotate(10 45 35)'/%3E%3Cellipse cx='55' cy='22' rx='8' ry='3' transform='rotate(25 55 22)'/%3E%3Cline x1='15' y1='65' x2='62' y2='18' stroke-width='0.8'/%3E%3Ccircle cx='62' cy='18' r='3' fill='%23c8b090' opacity='0.5'/%3E%3Ccircle cx='20' cy='64' r='2' fill='%23c8b090' opacity='0.4'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.header-card::before { top:10px; left:10px; }
+.header-card::after  { bottom:10px; right:10px; transform:rotate(180deg); }
+
+/* Inner border line */
+.header-card-inner {
+  position: relative;
+  border: 1px solid rgba(200,168,112,0.3);
+  padding: 36px 40px 32px;
+}
+
+.hdr-eyebrow {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 300;
+  letter-spacing: 6px;
+  color: var(--ink3);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.hdr-script {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(3.2rem, 8vw, 5.2rem);
+  color: var(--ink);
+  line-height: 1.05;
+  margin-bottom: 2px;
+  text-shadow: 1px 2px 0 rgba(200,168,112,0.2);
+}
+
+.hdr-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--ink2);
+  letter-spacing: 3px;
+  margin-bottom: 22px;
+}
+
+/* Botanical divider */
+.hdr-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+  color: var(--gold);
+  font-size: 13px;
+  opacity: 0.8;
+}
+.hdr-divider::before,
+.hdr-divider::after {
+  content:'';
+  flex: 1;
+  max-width: 80px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold2));
+}
+.hdr-divider::after { background: linear-gradient(to left, transparent, var(--gold2)); }
+
+/* Progress inside header */
+.hdr-progress-wrap {
+  margin-top: 22px;
+}
+.hdr-progress-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  color: var(--ink3);
+  margin-bottom: 8px;
+}
+.hdr-progress-track {
+  height: 4px;
+  background: var(--paper3);
+  border-radius: 99px;
+  overflow: hidden;
+  max-width: 280px;
+  margin: 0 auto;
+}
+.hdr-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blush), var(--gold));
+  border-radius: 99px;
+  transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1);
+  width: 0%;
+}
+
+/* Floating floral illustrations (SVG inline) */
+.floral-left, .floral-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 120px;
+  opacity: 0.55;
+  pointer-events: none;
+}
+.floral-left  { left: -10px; }
+.floral-right { right: -10px; transform: translateY(-50%) scaleX(-1); }
+
+/* ═══════════════════════════════
+   BODY
+═══════════════════════════════ */
+.page-body {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 36px 24px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ═══════════════════════════════
+   CATEGORY CARD
+═══════════════════════════════ */
+.category {
+  background: rgba(255,255,255,0.8);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle side accent */
+.category::before {
+  content:'';
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width: 3px;
+}
+.category.cat-w::before { background: linear-gradient(to bottom, var(--blush), var(--blush2)); }
+.category.cat-h::before { background: linear-gradient(to bottom, var(--sage), var(--sage2)); }
+.category.cat-t::before { background: linear-gradient(to bottom, var(--gold), var(--gold2)); }
+
+.cat-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px 16px 22px;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid var(--border);
+  background: rgba(250,248,244,0.9);
+  transition: background 0.15s;
+}
+.cat-header:hover { background: var(--paper2); }
+
+.cat-icon-wrap {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  background: white;
+}
+
+.cat-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 1px;
+  flex: 1;
+}
+
+.cat-pill {
+  font-size: 0.68rem;
+  color: var(--ink3);
+  background: var(--paper2);
+  border: 1px solid var(--border);
+  padding: 3px 10px;
+  letter-spacing: 0.5px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.cat-arrow { color: var(--ink3); font-size: 12px; transition: transform 0.25s; margin-left: 6px; }
+
+/* ═══════════════════════════════
+   SECTION
+═══════════════════════════════ */
+.sec-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 20px 10px 22px;
+  border-bottom: 1px solid rgba(224,212,196,0.5);
+  cursor: pointer;
+  user-select: none;
+  background: rgba(253,251,248,0.6);
+  transition: background 0.12s;
+}
+.sec-header:hover { background: var(--paper2); }
+
+.sec-tag {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.88rem;
+  color: var(--ink2);
+  flex: 1;
+  letter-spacing: 1px;
+}
+
+.sec-count {
+  font-size: 0.68rem;
+  color: var(--ink3);
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.sec-add {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--gold2);
+  background: transparent;
+  color: var(--gold);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.18s;
+  flex-shrink: 0;
+  margin: 0 4px;
+}
+.sec-add:hover { background: var(--gold); color: white; border-color: var(--gold); }
+.sec-arrow { color: var(--ink3); font-size: 11px; transition: transform 0.25s; }
+
+/* ═══════════════════════════════
+   TASK ROW
+═══════════════════════════════ */
+.task-list { padding: 4px 0 6px; }
+
+.task-row {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+}
+.task-row:hover .task-core { background: rgba(245,240,232,0.5); }
+.task-row:hover .del-btn   { opacity: 1; }
+
+.task-core {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 7px 20px 7px 22px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+/* depth indents */
+.task-row[data-depth="1"] .task-core { padding-left: 38px; }
+.task-row[data-depth="2"] .task-core { padding-left: 56px; }
+.task-row[data-depth="3"] .task-core { padding-left: 74px; }
+
+/* depth vertical guide line */
+.task-row[data-depth="1"]::before,
+.task-row[data-depth="2"]::before,
+.task-row[data-depth="3"]::before {
+  content:'';
+  position:absolute;
+  left: 30px;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: var(--border);
+  opacity: 0.6;
+}
+.task-row[data-depth="2"]::before { left:48px; }
+.task-row[data-depth="3"]::before { left:66px; }
+
+.chk {
+  width: 15px; height: 15px;
+  border: 1.5px solid var(--blush);
+  flex-shrink: 0;
+  margin-top: 3px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px;
+  color: white;
+  transition: all 0.2s;
+}
+.task-row.done .chk { background: var(--done); border-color: var(--done); }
+
+.task-cat-w .chk { border-color: var(--blush); }
+.task-cat-h .chk { border-color: var(--sage); }
+.task-cat-t .chk { border-color: var(--gold); }
+.task-row.done.task-cat-w .chk { background: var(--blush); border-color: var(--blush); }
+.task-row.done.task-cat-h .chk { background: var(--sage); border-color: var(--sage); }
+.task-row.done.task-cat-t .chk { background: var(--gold); border-color: var(--gold); }
+
+.task-txt {
+  font-size: 0.85rem;
+  color: var(--ink);
+  line-height: 1.6;
+  flex: 1;
+  font-weight: 400;
+}
+.task-row.done .task-txt { text-decoration: line-through; color: var(--ink3); }
+
+.del-btn {
+  width: 24px; height: 24px;
+  border: none;
+  background: transparent;
+  color: var(--ink3);
+  font-size: 11px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 6px;
+  margin-right: 8px;
+}
+.del-btn:hover { color: var(--blush); opacity:1; }
+
+/* ═══════════════════════════════
+   ADD FORM
+═══════════════════════════════ */
+.add-form {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 22px 14px;
+  border-top: 1px dashed var(--gold2);
+  background: var(--paper2);
+  animation: fdIn 0.18s ease;
+}
+.add-form.open { display: flex; }
+.add-row { display:flex; gap:8px; align-items:center; }
+.add-inp {
+  flex:1;
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  background: white;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 0.82rem;
+  color: var(--ink);
+  outline: none;
+}
+.add-inp:focus { border-color: var(--gold); }
+.add-inp::placeholder { color: var(--ink3); font-weight:300; }
+.add-sel {
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  background: white;
+  font-size: 0.76rem;
+  color: var(--ink2);
+  outline: none;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.add-actions { display:flex; gap:6px; justify-content:flex-end; }
+.btn-save {
+  padding: 6px 18px;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-save:hover { background: var(--blush); }
+.btn-cxl {
+  padding: 6px 14px;
+  background: transparent;
+  color: var(--ink3);
+  border: 1px solid var(--border);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+.btn-cxl:hover { background: var(--paper3); }
+
+/* ═══════════════════════════════
+   FOOTER
+═══════════════════════════════ */
+.site-footer {
+  text-align: center;
+  padding: 32px 20px 48px;
+  position: relative;
+}
+.footer-script {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.8rem;
+  color: var(--ink3);
+  display: block;
+  margin-bottom: 10px;
+}
+.footer-line {
+  font-size: 0.68rem;
+  color: var(--ink3);
+  letter-spacing: 3px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+}
+.reset-btn {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 0.65rem;
+  color: var(--ink3);
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 1px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.reset-btn:hover { color: var(--blush); border-color: var(--blush); }
+
+/* ═══════════════════════════════
+   ANIMATIONS
+═══════════════════════════════ */
+@keyframes fdIn   { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:translateY(0)} }
+@keyframes taskIn { from{opacity:0;transform:translateX(-5px)} to{opacity:1;transform:translateX(0)} }
+@keyframes chkPop { 0%{transform:scale(0.3)} 60%{transform:scale(1.3)} 100%{transform:scale(1)} }
+@keyframes headerIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+.task-row.new { animation: taskIn 0.25s ease; }
+.chk.pop { animation: chkPop 0.25s ease; }
+.header-card { animation: headerIn 0.8s ease both; }
+
+@media(max-width:600px){
+  .header-card { margin: 24px 16px 0; padding: 36px 20px 30px; }
+  .header-card-inner { padding: 24px 16px 20px; }
+  .floral-left, .floral-right { display:none; }
+  .page-body { padding: 24px 14px 60px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="site-header">
+  <!-- Floating floral SVG left -->
+  <svg class="floral-left" viewBox="0 0 120 300" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <g stroke="#c8b090" stroke-width="1" opacity="0.7">
+      <!-- stem -->
+      <path d="M60 280 Q55 220 50 160 Q45 100 58 40" stroke-width="1.2"/>
+      <!-- leaves -->
+      <ellipse cx="42" cy="240" rx="18" ry="8" transform="rotate(-35 42 240)" fill="rgba(200,176,144,0.15)"/>
+      <ellipse cx="68" cy="200" rx="16" ry="7" transform="rotate(25 68 200)" fill="rgba(200,176,144,0.12)"/>
+      <ellipse cx="38" cy="160" rx="15" ry="6" transform="rotate(-40 38 160)" fill="rgba(200,176,144,0.15)"/>
+      <ellipse cx="70" cy="120" rx="14" ry="6" transform="rotate(20 70 120)" fill="rgba(200,176,144,0.12)"/>
+      <!-- flower top -->
+      <circle cx="58" cy="40" r="10" fill="rgba(212,160,160,0.25)" stroke="#d4a0a0"/>
+      <circle cx="58" cy="40" r="4"  fill="rgba(212,160,160,0.4)"/>
+      <ellipse cx="46" cy="34" rx="7" ry="4" transform="rotate(-30 46 34)" fill="rgba(212,160,160,0.2)" stroke="#d4a0a0"/>
+      <ellipse cx="70" cy="34" rx="7" ry="4" transform="rotate(30 70 34)"  fill="rgba(212,160,160,0.2)" stroke="#d4a0a0"/>
+      <ellipse cx="58" cy="26" rx="6" ry="4" fill="rgba(212,160,160,0.2)" stroke="#d4a0a0"/>
+    </g>
+  </svg>
+
+  <div class="header-card">
+    <!-- Floral right mirror -->
+    <svg class="floral-right" viewBox="0 0 120 300" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <g stroke="#c8b090" stroke-width="1" opacity="0.7">
+        <path d="M60 280 Q55 220 50 160 Q45 100 58 40" stroke-width="1.2"/>
+        <ellipse cx="42" cy="240" rx="18" ry="8" transform="rotate(-35 42 240)" fill="rgba(200,176,144,0.15)"/>
+        <ellipse cx="68" cy="200" rx="16" ry="7" transform="rotate(25 68 200)" fill="rgba(200,176,144,0.12)"/>
+        <ellipse cx="38" cy="160" rx="15" ry="6" transform="rotate(-40 38 160)" fill="rgba(200,176,144,0.15)"/>
+        <ellipse cx="70" cy="120" rx="14" ry="6" transform="rotate(20 70 120)" fill="rgba(200,176,144,0.12)"/>
+        <circle cx="58" cy="40" r="10" fill="rgba(212,160,160,0.25)" stroke="#d4a0a0"/>
+        <circle cx="58" cy="40" r="4"  fill="rgba(212,160,160,0.4)"/>
+        <ellipse cx="46" cy="34" rx="7" ry="4" transform="rotate(-30 46 34)" fill="rgba(212,160,160,0.2)" stroke="#d4a0a0"/>
+        <ellipse cx="70" cy="34" rx="7" ry="4" transform="rotate(30 70 34)"  fill="rgba(212,160,160,0.2)" stroke="#d4a0a0"/>
+        <ellipse cx="58" cy="26" rx="6" ry="4" fill="rgba(212,160,160,0.2)" stroke="#d4a0a0"/>
+      </g>
+    </svg>
+
+    <div class="header-card-inner">
+      <p class="hdr-eyebrow">Our Wedding Preparation</p>
+      <h1 class="hdr-script">Wedding TO-DO</h1>
+      <p class="hdr-sub">with love &amp; care</p>
+      <div class="hdr-divider">❧</div>
+      <div class="hdr-progress-wrap">
+        <p class="hdr-progress-label" id="glabel">0 / 0 completed</p>
+        <div class="hdr-progress-track">
+          <div class="hdr-progress-fill" id="gfill"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Small bow ribbon accent -->
+  <svg style="display:block;margin:0 auto;margin-top:-1px" width="120" height="28" viewBox="0 0 120 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M60 14 C50 6 30 4 20 10 C30 10 50 14 60 14Z" fill="rgba(212,160,160,0.25)" stroke="#d4a0a0" stroke-width="0.8"/>
+    <path d="M60 14 C70 6 90 4 100 10 C90 10 70 14 60 14Z" fill="rgba(212,160,160,0.25)" stroke="#d4a0a0" stroke-width="0.8"/>
+    <circle cx="60" cy="14" r="3" fill="rgba(212,160,160,0.5)" stroke="#d4a0a0" stroke-width="0.8"/>
+    <path d="M58 14 Q56 20 54 26" stroke="#d4a0a0" stroke-width="0.8" opacity="0.5"/>
+    <path d="M62 14 Q64 20 66 26" stroke="#d4a0a0" stroke-width="0.8" opacity="0.5"/>
+  </svg>
+</header>
+
+<!-- ═══ BODY ═══ -->
+<div class="page-body" id="page-body"></div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="site-footer">
+  <span class="footer-script">with love</span>
+  <p class="footer-line">두 사람의 행복한 시작을 응원해요</p>
+  <span class="reset-btn" onclick="resetAll()">전체 초기화</span>
+</footer>
+
+<script>
+const DEFAULT_DATA = [
+  { id:"wedding", title:"결혼식", icon:"💒", cat:"w", dotClass:"dot-wedding",
+    sections:[
+      { id:"pre", title:"식전",
+        tasks:[
+          {id:"t1",  text:"식장에 최종계약서 보내기",               depth:0},
+          {id:"t2",  text:"도와주는 친구들 미리 가이드",             depth:0},
+          {id:"t3",  text:"사회자 - 식순 설명 / 기타 특이사항 설명", depth:1},
+          {id:"t4",  text:"축가 - 식순 설명 / 곡 픽스, MR 체크",    depth:1},
+          {id:"t5",  text:"가방순이 - 해야할일 전달",               depth:1},
+          {id:"t6",  text:"축의대 - 축의대 엑셀파일 템플릿 전달",   depth:1},
+          {id:"t7",  text:"포토테이블",                             depth:0},
+          {id:"t8",  text:"사진 셀렉/인화",                         depth:1},
+          {id:"t9",  text:"액자 구매",                              depth:1},
+          {id:"t10", text:"부케 스타일 실장님 전달",                depth:0},
+        ]},
+      { id:"day", title:"당일",
+        tasks:[
+          {id:"t11", text:"사례비",                  depth:0},
+          {id:"t12", text:"헬퍼 (드레스샵)",          depth:1},
+          {id:"t13", text:"사회자 - 엘리",            depth:1},
+          {id:"t14", text:"축가",                    depth:1},
+          {id:"t15", text:"규정이",                  depth:2},
+          {id:"t16", text:"경민/은채",               depth:2},
+          {id:"t17", text:"가방순이 - 상인",          depth:1},
+          {id:"t18", text:"축의대 - 형태친구들",      depth:1},
+          {id:"t19", text:"준비물 챙기기",            depth:0},
+        ]},
+      { id:"after", title:"식후",
+        tasks:[
+          {id:"t20", text:"감사인사",          depth:0},
+          {id:"t21", text:"연락돌리기",        depth:1},
+          {id:"t22", text:"답례품 돌리기",     depth:1},
+          {id:"t23", text:"축의금 정산",       depth:0},
+          {id:"t24", text:"스냅/원판 사진 셀렉", depth:0},
+        ]},
+    ]},
+  { id:"house", title:"신혼집", icon:"🏠", cat:"h", dotClass:"dot-house",
+    sections:[
+      { id:"before", title:"입주전",
+        tasks:[
+          {id:"h1",  text:"기본 세팅",            depth:0},
+          {id:"h2",  text:"화장실 공사 (5/7)",    depth:1},
+          {id:"h3",  text:"도배 공사 (5/8)",      depth:1},
+          {id:"h4",  text:"입주청소 (5/10)",      depth:1},
+          {id:"h5",  text:"시스템행거",           depth:1},
+          {id:"h6",  text:"실측 (5/11)",          depth:2},
+          {id:"h7",  text:"설치 (미정)",           depth:2},
+          {id:"h8",  text:"가전가구",             depth:0},
+          {id:"h9",  text:"모션데스크 구매",       depth:1},
+          {id:"h10", text:"침대 배송 (5/15)",     depth:1},
+          {id:"h11", text:"이불/베개 구매",        depth:2},
+          {id:"h12", text:"메인가전 주문/설치",    depth:1},
+          {id:"h13", text:"에어컨",               depth:2},
+          {id:"h14", text:"세탁기/건조기",         depth:2},
+          {id:"h15", text:"냉장고",               depth:2},
+          {id:"h16", text:"스타일러",             depth:2},
+          {id:"h17", text:"인덕션",               depth:2},
+        ]},
+      { id:"after_house", title:"입주후",
+        tasks:[
+          {id:"h18", text:"추가 가전가구",             depth:0},
+          {id:"h19", text:"미닉스 (음식물 처리기)",    depth:1},
+          {id:"h20", text:"조명",                     depth:1},
+          {id:"h21", text:"식탁/테이블",              depth:1},
+          {id:"h22", text:"인테리어",                 depth:0},
+          {id:"h23", text:"화장실 방수 타일/페인트",   depth:1},
+          {id:"h24", text:"주방 타일",                depth:1},
+          {id:"h25", text:"현관 데코타일",            depth:1},
+          {id:"h26", text:"주소지 일괄 변경",          depth:0},
+        ]},
+    ]},
+  { id:"honeymoon", title:"신혼여행", icon:"✈️", cat:"t", dotClass:"dot-honeymoon",
+    sections:[
+      { id:"trip", title:"준비",
+        tasks:[
+          {id:"tr1", text:"여행자보험 가입",          depth:0},
+          {id:"tr2", text:"여행 준비물 미리 구매",    depth:0},
+          {id:"tr3", text:"어댑터 구매 필요",         depth:1},
+          {id:"tr4", text:"환전/카드 챙기기",         depth:0},
+          {id:"tr5", text:"숙소바우처/e티켓",         depth:0},
+          {id:"tr6", text:"e심 구매",                depth:0},
+        ]},
+    ]},
+];
+
+const CK="wc4-ck", DK="wc4-dk";
+let checked = JSON.parse(localStorage.getItem(CK)||"{}");
+let data    = JSON.parse(localStorage.getItem(DK)||"null") || JSON.parse(JSON.stringify(DEFAULT_DATA));
+
+function saveC(){ localStorage.setItem(CK,JSON.stringify(checked)); }
+function saveD(){ localStorage.setItem(DK,JSON.stringify(data)); }
+let _u=Date.now(); function uid(){ return "u"+(++_u); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function allTasks(){ return data.flatMap(c=>c.sections.flatMap(s=>s.tasks)); }
+
+function updateProgress(){
+  const all=allTasks(), total=all.length, done=all.filter(t=>checked[t.id]).length;
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById("gfill").style.width=pct+"%";
+  document.getElementById("glabel").textContent=`${done} / ${total} completed`;
+  data.forEach(cat=>{
+    const el=document.getElementById("cc-"+cat.id); if(!el) return;
+    const a=cat.sections.flatMap(s=>s.tasks), d=a.filter(t=>checked[t.id]).length;
+    el.textContent=`${d} / ${a.length}`;
+  });
+  data.forEach(cat=>cat.sections.forEach(sec=>{
+    const el=document.getElementById("sc-"+cat.id+"-"+sec.id); if(!el) return;
+    const d=sec.tasks.filter(t=>checked[t.id]).length;
+    el.textContent=`${d}/${sec.tasks.length}`;
+  }));
+}
+
+function toggleTask(tid){
+  checked[tid]=!checked[tid]; saveC();
+  const row=document.getElementById("row-"+tid);
+  row.classList.toggle("done",checked[tid]);
+  const box=row.querySelector(".chk");
+  box.textContent=checked[tid]?"✓":"";
+  box.classList.remove("pop"); void box.offsetWidth;
+  if(checked[tid]) box.classList.add("pop");
+  updateProgress();
+}
+
+function delTask(cid,sid,tid,e){
+  e.stopPropagation();
+  const cat=data.find(c=>c.id===cid), sec=cat.sections.find(s=>s.id===sid);
+  sec.tasks=sec.tasks.filter(t=>t.id!==tid); delete checked[tid]; saveD(); saveC();
+  const row=document.getElementById("row-"+tid);
+  if(row){ row.style.cssText="transition:opacity .18s,transform .18s;opacity:0;transform:translateX(8px)";
+    setTimeout(()=>{row.remove();updateProgress();},190); }
+}
+
+function openForm(cid,sid,e){
+  e&&e.stopPropagation();
+  document.querySelectorAll(".add-form.open").forEach(f=>{if(f.dataset.k!==cid+"_"+sid)f.classList.remove("open");});
+  const f=document.getElementById("af-"+cid+"-"+sid);
+  f.classList.toggle("open");
+  if(f.classList.contains("open")) f.querySelector(".add-inp").focus();
+}
+function closeForm(cid,sid){
+  const f=document.getElementById("af-"+cid+"-"+sid);
+  f.classList.remove("open"); f.querySelector(".add-inp").value="";
+}
+function addTask(cid,sid){
+  const f=document.getElementById("af-"+cid+"-"+sid);
+  const inp=f.querySelector(".add-inp"), text=inp.value.trim();
+  if(!text){inp.style.borderColor="var(--blush)";inp.focus();return;}
+  inp.style.borderColor="";
+  const depth=parseInt(f.querySelector(".add-sel").value)||0;
+  const task={id:uid(),text,depth};
+  data.find(c=>c.id===cid).sections.find(s=>s.id===sid).tasks.push(task); saveD(); closeForm(cid,sid);
+  const list=document.getElementById("tl-"+cid+"-"+sid);
+  const div=document.createElement("div");
+  div.className=`task-row new task-cat-${data.find(c=>c.id===cid).cat}`; div.id="row-"+task.id; div.dataset.depth=depth;
+  div.innerHTML=makeTaskHTML(cid,sid,task,data.find(c=>c.id===cid).cat);
+  list.insertBefore(div,document.getElementById("af-"+cid+"-"+sid)); updateProgress();
+}
+
+function toggleSec(cid,sid){ const b=document.getElementById("sb-"+cid+"-"+sid),a=document.getElementById("sa-"+cid+"-"+sid);const h=b.style.display==="none";b.style.display=h?"":"none";a.style.transform=h?"":"rotate(-90deg)"; }
+function toggleCat(cid){ const b=document.getElementById("cb-"+cid),a=document.getElementById("ca-"+cid);const h=b.style.display==="none";b.style.display=h?"":"none";a.style.transform=h?"":"rotate(-90deg)"; }
+function resetAll(){ if(!confirm("전체 체크를 초기화할까요?")) return; checked={}; saveC(); render(); }
+
+function makeTaskHTML(cid,sid,t,cat){
+  return `<div class="task-core" onclick="toggleTask('${t.id}')">
+    <div class="chk">${checked[t.id]?"✓":""}</div>
+    <span class="task-txt">${esc(t.text)}</span>
+  </div>
+  <button class="del-btn" onclick="delTask('${cid}','${sid}','${t.id}',event)">✕</button>`;
+}
+
+function render(){
+  const body=document.getElementById("page-body"); body.innerHTML="";
+  data.forEach(cat=>{
+    const el=document.createElement("div"); el.className=`category cat-${cat.cat}`;
+    const allCT=cat.sections.flatMap(s=>s.tasks), catDone=allCT.filter(t=>checked[t.id]).length;
+
+    const secsHTML=cat.sections.map(sec=>{
+      const secDone=sec.tasks.filter(t=>checked[t.id]).length;
+      const tasksHTML=sec.tasks.map(t=>`<div class="task-row ${checked[t.id]?"done":""} task-cat-${cat.cat}" id="row-${t.id}" data-depth="${t.depth}">${makeTaskHTML(cat.id,sec.id,t,cat.cat)}</div>`).join("");
+      return `<div>
+        <div class="sec-header" onclick="toggleSec('${cat.id}','${sec.id}')">
+          <span class="sec-tag">${esc(sec.title)}</span>
+          <span class="sec-count" id="sc-${cat.id}-${sec.id}">${secDone}/${sec.tasks.length}</span>
+          <button class="sec-add" onclick="openForm('${cat.id}','${sec.id}',event)">+</button>
+          <span class="sec-arrow" id="sa-${cat.id}-${sec.id}">▾</span>
+        </div>
+        <div id="sb-${cat.id}-${sec.id}">
+          <div class="task-list" id="tl-${cat.id}-${sec.id}">
+            ${tasksHTML}
+            <div class="add-form" id="af-${cat.id}-${sec.id}" data-k="${cat.id}_${sec.id}">
+              <div class="add-row">
+                <input class="add-inp" placeholder="할 일 입력" onkeydown="if(event.key==='Enter')addTask('${cat.id}','${sec.id}')"/>
+                <select class="add-sel"><option value="0">1단계</option><option value="1">2단계</option><option value="2">3단계</option></select>
+              </div>
+              <div class="add-actions">
+                <button class="btn-cxl" onclick="closeForm('${cat.id}','${sec.id}')">취소</button>
+                <button class="btn-save" onclick="addTask('${cat.id}','${sec.id}')">추가</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }).join("");
+
+    el.innerHTML=`
+      <div class="cat-header" onclick="toggleCat('${cat.id}')">
+        <div class="cat-icon-wrap">${cat.icon}</div>
+        <span class="cat-name">${esc(cat.title)}</span>
+        <span class="cat-pill" id="cc-${cat.id}">${catDone} / ${allCT.length}</span>
+        <span class="cat-arrow" id="ca-${cat.id}">▾</span>
+      </div>
+      <div id="cb-${cat.id}">${secsHTML}</div>
+    `;
+    body.appendChild(el);
+  });
+  updateProgress();
+}
+
+render();
+</script>
+</body>
+</html>
