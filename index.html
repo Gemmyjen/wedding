@@ -783,7 +783,885 @@ function render(){
 
     el.innerHTML=`
       <div class="cat-header" onclick="toggleCat('${cat.id}')">
+        <div class="cat-icon-wrap">${cat.icon}</div><!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hyungtae & Seoyeon — Wedding TO-DO</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&family=Great+Vibes&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper:  #faf8f4;
+  --paper2: #f5f0e8;
+  --paper3: #ede5d8;
+  --ink:    #2e2620;
+  --ink2:   #6b5a4e;
+  --ink3:   #a8968a;
+  --blush:  #3a5468;
+  --blush2: #6a8fa8;
+  --blush3: #d8e4ec;
+  --sage:   #5a7a5a;
+  --sage2:  #9ab89a;
+  --gold:   #3a5468;
+  --gold2:  #c8d8e4;
+  --border: #d8d0c4;
+  --done:   #8aaa8a;
+  --urgent: #b84a30;
+  --urgent-bg: #fdf0ee;
+  --urgent-border: #f0c0b0;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--paper); font-family:'Noto Sans KR',sans-serif; color:var(--ink); min-height:100vh; }
+
+
+
+/* ══════════════════════════════════════
+   FULL-WIDTH BANNER — invitation card style
+══════════════════════════════════════ */
+
+/* Paper texture background */
+.site-header {
+  position: relative;
+  width: 100%;
+  min-height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* warm textured paper */
+  background-color: #f2ede4;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, #f5f0e8 0%, #ede8dc 100%);
+}
+
+/* Corner ribbon/bow decorations */
+.hdr-corner {
+  position: absolute;
+  width: 90px; height: 90px;
+  pointer-events: none;
+  z-index: 2;
+}
+.hdr-corner.tl { top: 0;    left: 0; }
+.hdr-corner.tr { top: 0;    right: 0; transform: scaleX(-1); }
+.hdr-corner.bl { bottom: 0; left: 0;  transform: scaleY(-1); }
+.hdr-corner.br { bottom: 0; right: 0; transform: scale(-1); }
+
+/* Wavy frame border (SVG overlay) */
+.hdr-frame {
+  position: absolute;
+  inset: 16px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Center content block */
+.hdr-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  padding: 56px 60px 48px;
+  max-width: 820px;
+  width: 100%;
+}
+
+/* "a love so big..." style eyebrow */
+.hdr-eyebrow {
+  font-family: 'Caveat', cursive;
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  color: #5a7a5a;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* Main name script */
+.hdr-script {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(3.8rem, 8vw, 6.4rem);
+  color: #3a5468;
+  line-height: 1.05;
+  display: block;
+  text-shadow: 1px 2px 0 rgba(58,84,104,0.1);
+}
+
+/* Sub date/label */
+.hdr-sub {
+  font-family: 'Caveat', cursive;
+  font-size: clamp(1rem, 2.2vw, 1.3rem);
+  color: #3a5468;
+  letter-spacing: 1px;
+  margin-top: 4px;
+  display: block;
+}
+
+/* Progress bar */
+.hdr-prog-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  max-width: 300px;
+  margin: 18px auto 0;
+}
+.hdr-prog-track {
+  flex: 1;
+  height: 3px;
+  background: rgba(58,84,104,0.15);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.hdr-prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #7aaa7a, #3a5468);
+  border-radius: 99px;
+  transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1);
+  width: 0%;
+}
+.hdr-prog-label {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  color: #3a5468;
+  white-space: nowrap;
+  letter-spacing: 1px;
+}
+
+/* ══════════════════════════════════════
+   URGENT FILTER BAR
+══════════════════════════════════════ */
+.filter-bar {
+  max-width: 680px;
+  margin: 28px auto 0;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.filter-label {
+  font-size: 0.72rem;
+  color: var(--ink3);
+  letter-spacing: 1px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  white-space: nowrap;
+}
+.urgent-toggle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 16px;
+  border: 1.5px solid var(--urgent-border);
+  background: white;
+  color: var(--urgent);
+  font-size: 0.72rem;
+  font-family: 'Noto Sans KR', sans-serif;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 99px;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+.urgent-toggle:hover { background: var(--urgent-bg); }
+.urgent-toggle.active { background: var(--urgent); color: white; border-color: var(--urgent); }
+.urgent-toggle .u-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--urgent); flex-shrink:0; transition: background 0.2s;
+}
+.urgent-toggle.active .u-dot { background: rgba(255,255,255,0.8); }
+.urgent-count {
+  background: var(--urgent-bg);
+  color: var(--urgent);
+  border: 1px solid var(--urgent-border);
+  border-radius: 99px;
+  padding: 2px 8px;
+  font-size: 0.68rem;
+  font-family: 'Noto Sans KR', sans-serif;
+  margin-left: 4px;
+}
+.urgent-count.active-c { background: var(--urgent); color: white; border-color: var(--urgent); }
+
+/* ══════════════════════════════════════
+   PAGE BODY
+══════════════════════════════════════ */
+.page-body {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 20px 24px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ══════════════════════════════════════
+   CATEGORY
+══════════════════════════════════════ */
+.category {
+  background: rgba(255,255,255,0.85);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.category::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
+}
+.category.cat-w::before { background:linear-gradient(to bottom,#3a5468,#6a8fa8); }
+.category.cat-h::before { background:linear-gradient(to bottom,#5a7a5a,#9ab89a); }
+.category.cat-t::before { background:linear-gradient(to bottom,#3a5468,#9ab8c8); }
+
+.cat-header {
+  display:flex; align-items:center; gap:12px;
+  padding:14px 18px 14px 20px;
+  cursor:pointer; user-select:none;
+  border-bottom:1px solid var(--border);
+  background:rgba(250,248,244,0.95);
+  transition:background 0.15s;
+}
+.cat-header:hover { background:var(--paper2); }
+.cat-icon-wrap { width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;border:1px solid var(--border);background:white;flex-shrink:0; }
+.cat-name { font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);letter-spacing:1px;flex:1; }
+.cat-pill { font-size:0.67rem;color:var(--ink3);background:var(--paper2);border:1px solid var(--border);padding:2px 9px;letter-spacing:0.5px;white-space:nowrap; }
+
+/* add section button */
+.cat-add-sec-btn {
+  width:24px;height:24px;border-radius:50%;
+  border:1.5px solid var(--gold2); background:transparent;
+  color:var(--gold); font-size:17px; cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.18s; flex-shrink:0; margin-right:4px;
+}
+.cat-add-sec-btn:hover { background:var(--gold);color:white;border-color:var(--gold); }
+.cat-arrow { color:var(--ink3);font-size:11px;transition:transform 0.25s; }
+
+/* add section form */
+.add-sec-form {
+  display:none; flex-direction:column; gap:8px;
+  padding:12px 20px 14px; border-top:1px dashed var(--gold2);
+  background:rgba(250,245,235,0.8);
+}
+.add-sec-form.open { display:flex; animation:fdIn 0.18s ease; }
+.add-sec-row { display:flex;gap:8px;align-items:center; }
+
+/* ══════════════════════════════════════
+   SECTION
+══════════════════════════════════════ */
+.sec-header {
+  display:flex;align-items:center;gap:10px;
+  padding:10px 18px 9px 20px;
+  border-bottom:1px solid rgba(224,212,196,0.5);
+  cursor:pointer;user-select:none;
+  background:rgba(253,251,248,0.7);
+  transition:background 0.12s;
+}
+.sec-header:hover { background:var(--paper2); }
+.sec-tag { font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.88rem;color:var(--ink2);flex:1;letter-spacing:1px; }
+.sec-count { font-size:0.67rem;color:var(--ink3); }
+.sec-add { width:19px;height:19px;border-radius:50%;border:1px solid var(--gold2);background:transparent;color:var(--gold);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.18s;flex-shrink:0;margin:0 3px; }
+.sec-add:hover { background:var(--gold);color:white; }
+.sec-arrow { color:var(--ink3);font-size:11px;transition:transform 0.25s; }
+
+/* ══════════════════════════════════════
+   TASK ROW
+══════════════════════════════════════ */
+.task-list { padding:4px 0 6px; }
+
+.task-row {
+  display:flex; align-items:flex-start; position:relative;
+}
+.task-row:hover .task-core { background:rgba(245,240,232,0.5); }
+.task-row:hover .del-btn   { opacity:1; }
+.task-row:hover .imp-btn   { opacity:1; }
+
+/* urgent highlight */
+.task-row.is-urgent .task-core {
+  background: var(--urgent-bg) !important;
+  border-left: 2px solid var(--urgent);
+}
+.task-row.is-urgent .task-txt { color: var(--urgent); font-weight:500; }
+.task-row.is-urgent .chk { border-color: var(--urgent); }
+.task-row.is-urgent.done .chk { background:var(--urgent); border-color:var(--urgent); }
+
+/* hidden in urgent-only mode */
+.task-row.hide-non-urgent { display:none; }
+
+.task-core {
+  flex:1; display:flex; align-items:flex-start; gap:10px;
+  padding:7px 18px 7px 20px; cursor:pointer; transition:background 0.12s;
+}
+.task-row[data-depth="1"] .task-core { padding-left:36px; }
+.task-row[data-depth="2"] .task-core { padding-left:54px; }
+.task-row[data-depth="3"] .task-core { padding-left:72px; }
+.task-row[data-depth="1"]::before,.task-row[data-depth="2"]::before,.task-row[data-depth="3"]::before {
+  content:''; position:absolute; left:28px; top:0; bottom:0; width:1px; background:var(--border); opacity:0.6;
+}
+.task-row[data-depth="2"]::before { left:46px; }
+.task-row[data-depth="3"]::before { left:64px; }
+
+.chk {
+  width:15px;height:15px;border:1.5px solid var(--blush);
+  flex-shrink:0;margin-top:3px;display:flex;align-items:center;justify-content:center;
+  font-size:9px;color:white;transition:all 0.2s;
+}
+.task-row.done .chk { background:var(--done);border-color:var(--done); }
+.task-cat-w .chk { border-color:#3a5468; }
+.task-cat-h .chk { border-color:#5a7a5a; }
+.task-cat-t .chk { border-color:#3a5468; }
+.task-row.done.task-cat-w .chk { background:#3a5468;border-color:#3a5468; }
+.task-row.done.task-cat-h .chk { background:#5a7a5a;border-color:#5a7a5a; }
+.task-row.done.task-cat-t .chk { background:#3a5468;border-color:#3a5468; }
+
+.task-txt { font-size:0.85rem;color:var(--ink);line-height:1.6;flex:1; }
+.task-row.done .task-txt { text-decoration:line-through;color:var(--ink3); }
+
+/* urgent star badge */
+.urgent-badge {
+  font-size:0.58rem;letter-spacing:0.5px;
+  background:var(--urgent);color:white;
+  padding:1px 6px; border-radius:99px;
+  margin-top:4px; flex-shrink:0; align-self:flex-start;
+  font-family:'Noto Sans KR',sans-serif; font-weight:500;
+}
+
+/* important button */
+.imp-btn {
+  width:22px;height:22px;border:none;background:transparent;
+  color:var(--ink3);font-size:13px;cursor:pointer;
+  opacity:0;transition:opacity 0.15s,color 0.15s;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:5px;
+}
+.imp-btn:hover { color:var(--urgent); opacity:1; }
+.task-row.is-urgent .imp-btn { opacity:1; color:var(--urgent); }
+
+.del-btn {
+  width:22px;height:22px;border:none;background:transparent;
+  color:var(--ink3);font-size:11px;cursor:pointer;
+  opacity:0;transition:opacity 0.15s,color 0.15s;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:6px;margin-right:6px;
+}
+.del-btn:hover { color:#b84a30;opacity:1; }
+
+/* ══════════════════════════════════════
+   ADD FORMS (task + section)
+══════════════════════════════════════ */
+.add-form {
+  display:none;flex-direction:column;gap:8px;
+  padding:12px 20px 14px;border-top:1px dashed var(--gold2);
+  background:var(--paper2);
+}
+.add-form.open,.add-sec-form.open { display:flex;animation:fdIn 0.18s ease; }
+.add-row { display:flex;gap:8px;align-items:center; }
+.add-inp {
+  flex:1;padding:7px 12px;border:1px solid var(--border);
+  background:white;font-family:'Noto Sans KR',sans-serif;
+  font-size:0.82rem;color:var(--ink);outline:none;
+}
+.add-inp:focus { border-color:#3a5468; }
+.add-inp::placeholder { color:var(--ink3);font-weight:300; }
+.add-sel {
+  padding:7px 10px;border:1px solid var(--border);background:white;
+  font-size:0.76rem;color:var(--ink2);outline:none;cursor:pointer;
+  font-family:'Noto Sans KR',sans-serif;
+}
+.add-actions { display:flex;gap:6px;justify-content:flex-end; }
+.btn-save {
+  padding:6px 18px;background:#3a5468;color:#f5f0e8;border:none;
+  font-family:'Noto Sans KR',sans-serif;font-size:0.75rem;letter-spacing:1px;cursor:pointer;transition:background 0.15s;
+}
+.btn-save:hover { background:#5a7a5a; }
+.btn-cxl {
+  padding:6px 14px;background:transparent;color:var(--ink3);
+  border:1px solid var(--border);font-family:'Noto Sans KR',sans-serif;
+  font-size:0.75rem;cursor:pointer;
+}
+.btn-cxl:hover { background:var(--paper3); }
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+.site-footer {
+  text-align:center;padding:32px 20px 48px;
+}
+.footer-script {
+  font-family:'Great Vibes',cursive;font-size:2rem;color:#3a5468;
+  display:block;margin-bottom:8px;
+}
+.footer-line {
+  font-size:0.75rem;color:var(--ink3);letter-spacing:3px;
+  font-family:'Caveat',cursive;
+}
+.reset-btn {
+  display:inline-block;margin-top:16px;font-size:0.65rem;
+  color:var(--ink3);cursor:pointer;border-bottom:1px solid var(--border);
+  letter-spacing:1px;font-family:'Noto Sans KR',sans-serif;
+}
+.reset-btn:hover { color:#3a5468;border-color:#3a5468; }
+
+/* ══════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════ */
+@keyframes fdIn   { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:translateY(0)} }
+@keyframes taskIn { from{opacity:0;transform:translateX(-5px)} to{opacity:1;transform:translateX(0)} }
+@keyframes chkPop { 0%{transform:scale(0.3)} 60%{transform:scale(1.3)} 100%{transform:scale(1)} }
+@keyframes bannerIn { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
+
+.task-row.new { animation:taskIn 0.25s ease; }
+.chk.pop { animation:chkPop 0.25s ease; }
+.hdr-content { animation:bannerIn 0.9s ease both; }
+
+@media(max-width:600px){
+  .site-header { min-height:260px; }
+  .hdr-floral-l,.hdr-floral-r { width:130px; opacity:0.4; }
+  .page-body { padding:16px 14px 60px; }
+  .filter-bar { padding:0 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════ FULL-WIDTH BANNER ══════ -->
+<header class="site-header">
+
+  <!-- Corner bow ribbons (TL, TR, BL, BR) -->
+  <!-- Top-left -->
+  <svg class="hdr-corner tl" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#3a5468" stroke-width="1.2" fill="none" opacity="0.7">
+      <!-- bow loops -->
+      <path d="M18 18 C10 8 4 14 10 20 C16 26 22 18 18 18Z" fill="rgba(58,84,104,0.12)"/>
+      <path d="M18 18 C8 10 14 4 20 10 C26 16 18 22 18 18Z" fill="rgba(58,84,104,0.12)"/>
+      <!-- knot -->
+      <circle cx="18" cy="18" r="3" fill="rgba(58,84,104,0.3)"/>
+      <!-- ribbon tails -->
+      <path d="M17 21 Q14 34 10 48 Q8 56 6 68"/>
+      <path d="M19 21 Q22 34 26 48 Q28 56 30 68"/>
+      <!-- wavy frame lines -->
+      <path d="M28 4 Q36 2 44 4 Q52 6 60 4 Q68 2 76 4" stroke-width="1"/>
+      <path d="M4 28 Q2 36 4 44 Q6 52 4 60 Q2 68 4 76" stroke-width="1"/>
+    </g>
+  </svg>
+  <!-- Top-right -->
+  <svg class="hdr-corner tr" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#3a5468" stroke-width="1.2" fill="none" opacity="0.7">
+      <path d="M18 18 C10 8 4 14 10 20 C16 26 22 18 18 18Z" fill="rgba(58,84,104,0.12)"/>
+      <path d="M18 18 C8 10 14 4 20 10 C26 16 18 22 18 18Z" fill="rgba(58,84,104,0.12)"/>
+      <circle cx="18" cy="18" r="3" fill="rgba(58,84,104,0.3)"/>
+      <path d="M17 21 Q14 34 10 48 Q8 56 6 68"/>
+      <path d="M19 21 Q22 34 26 48 Q28 56 30 68"/>
+      <path d="M28 4 Q36 2 44 4 Q52 6 60 4 Q68 2 76 4" stroke-width="1"/>
+      <path d="M4 28 Q2 36 4 44 Q6 52 4 60 Q2 68 4 76" stroke-width="1"/>
+    </g>
+  </svg>
+  <!-- Bottom-left -->
+  <svg class="hdr-corner bl" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#3a5468" stroke-width="1.2" fill="none" opacity="0.7">
+      <path d="M18 18 C10 8 4 14 10 20 C16 26 22 18 18 18Z" fill="rgba(58,84,104,0.12)"/>
+      <path d="M18 18 C8 10 14 4 20 10 C26 16 18 22 18 18Z" fill="rgba(58,84,104,0.12)"/>
+      <circle cx="18" cy="18" r="3" fill="rgba(58,84,104,0.3)"/>
+      <path d="M17 21 Q14 34 10 48 Q8 56 6 68"/>
+      <path d="M19 21 Q22 34 26 48 Q28 56 30 68"/>
+      <path d="M28 4 Q36 2 44 4 Q52 6 60 4 Q68 2 76 4" stroke-width="1"/>
+      <path d="M4 28 Q2 36 4 44 Q6 52 4 60 Q2 68 4 76" stroke-width="1"/>
+    </g>
+  </svg>
+  <!-- Bottom-right -->
+  <svg class="hdr-corner br" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#3a5468" stroke-width="1.2" fill="none" opacity="0.7">
+      <path d="M18 18 C10 8 4 14 10 20 C16 26 22 18 18 18Z" fill="rgba(58,84,104,0.12)"/>
+      <path d="M18 18 C8 10 14 4 20 10 C26 16 18 22 18 18Z" fill="rgba(58,84,104,0.12)"/>
+      <circle cx="18" cy="18" r="3" fill="rgba(58,84,104,0.3)"/>
+      <path d="M17 21 Q14 34 10 48 Q8 56 6 68"/>
+      <path d="M19 21 Q22 34 26 48 Q28 56 30 68"/>
+      <path d="M28 4 Q36 2 44 4 Q52 6 60 4 Q68 2 76 4" stroke-width="1"/>
+      <path d="M4 28 Q2 36 4 44 Q6 52 4 60 Q2 68 4 76" stroke-width="1"/>
+    </g>
+  </svg>
+
+  <!-- Wavy frame border -->
+  <svg class="hdr-frame" viewBox="0 0 800 480" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <!-- top wavy line -->
+    <path d="M20 14 Q60 6 100 14 Q140 22 180 14 Q220 6 260 14 Q300 22 340 14 Q380 6 420 14 Q460 22 500 14 Q540 6 580 14 Q620 22 660 14 Q700 6 740 14 Q770 20 780 14"
+      stroke="#3a5468" stroke-width="1.3" opacity="0.35"/>
+    <!-- bottom wavy line -->
+    <path d="M20 466 Q60 474 100 466 Q140 458 180 466 Q220 474 260 466 Q300 458 340 466 Q380 474 420 466 Q460 458 500 466 Q540 474 580 466 Q620 458 660 466 Q700 474 740 466 Q770 460 780 466"
+      stroke="#3a5468" stroke-width="1.3" opacity="0.35"/>
+    <!-- left wavy line -->
+    <path d="M14 20 Q6 60 14 100 Q22 140 14 180 Q6 220 14 260 Q22 300 14 340 Q6 380 14 420 Q22 460 14 470"
+      stroke="#3a5468" stroke-width="1.3" opacity="0.35"/>
+    <!-- right wavy line -->
+    <path d="M786 20 Q794 60 786 100 Q778 140 786 180 Q794 220 786 260 Q778 300 786 340 Q794 380 786 420 Q778 460 786 470"
+      stroke="#3a5468" stroke-width="1.3" opacity="0.35"/>
+  </svg>
+
+  <!-- Center content -->
+  <div class="hdr-content">
+    <span class="hdr-eyebrow">a love so big deserves a celebration</span>
+
+    <h1 class="hdr-script">Hyungtae &amp; Seoyeon</h1>
+
+
+
+    <div class="hdr-prog-wrap">
+      <div class="hdr-prog-track"><div class="hdr-prog-fill" id="gfill"></div></div>
+      <span class="hdr-prog-label" id="glabel">0 / 0</span>
+    </div>
+  </div>
+
+</header>
+
+<!-- ══════ URGENT FILTER BAR ══════ -->
+<div class="filter-bar">
+  <span class="filter-label">Filter</span>
+  <button class="urgent-toggle" id="urgentToggle" onclick="toggleUrgentFilter()">
+    <span class="u-dot"></span>
+    중요 항목만 보기
+    <span class="urgent-count" id="urgentCount">0</span>
+  </button>
+</div>
+
+<!-- ══════ BODY ══════ -->
+<div class="page-body" id="page-body"></div>
+
+<!-- ══════ FOOTER ══════ -->
+<footer class="site-footer">
+  <span class="footer-script">with love</span>
+  <p class="footer-line">묭태&amp;서여이 화이팅 🌸</p>
+  <span class="reset-btn" onclick="resetAll()">전체 초기화</span>
+</footer>
+
+<script>
+const DEFAULT_DATA = [
+  { id:"wedding", title:"결혼식", icon:"💒", cat:"w",
+    sections:[
+      { id:"pre", title:"식전", tasks:[
+          {id:"t1",  text:"식장에 최종계약서 보내기",               depth:0, urgent:false},
+          {id:"t2",  text:"도와주는 친구들 미리 가이드",             depth:0, urgent:false},
+          {id:"t3",  text:"사회자 - 식순 설명 / 기타 특이사항 설명", depth:1, urgent:false},
+          {id:"t4",  text:"축가 - 식순 설명 / 곡 픽스, MR 체크",    depth:1, urgent:false},
+          {id:"t5",  text:"가방순이 - 해야할일 전달",               depth:1, urgent:false},
+          {id:"t6",  text:"축의대 - 축의대 엑셀파일 템플릿 전달",   depth:1, urgent:false},
+          {id:"t7",  text:"포토테이블",                             depth:0, urgent:false},
+          {id:"t8",  text:"사진 셀렉/인화",                         depth:1, urgent:false},
+          {id:"t9",  text:"액자 구매",                              depth:1, urgent:false},
+          {id:"t10", text:"부케 스타일 실장님 전달",                depth:0, urgent:false},
+      ]},
+      { id:"day", title:"당일", tasks:[
+          {id:"t11", text:"사례비",             depth:0, urgent:false},
+          {id:"t12", text:"헬퍼 (드레스샵)",    depth:1, urgent:false},
+          {id:"t13", text:"사회자 - 엘리",      depth:1, urgent:false},
+          {id:"t14", text:"축가",               depth:1, urgent:false},
+          {id:"t15", text:"규정이",             depth:2, urgent:false},
+          {id:"t16", text:"경민/은채",          depth:2, urgent:false},
+          {id:"t17", text:"가방순이 - 상인",    depth:1, urgent:false},
+          {id:"t18", text:"축의대 - 형태친구들",depth:1, urgent:false},
+          {id:"t19", text:"준비물 챙기기",       depth:0, urgent:false},
+      ]},
+      { id:"after", title:"식후", tasks:[
+          {id:"t20", text:"감사인사",            depth:0, urgent:false},
+          {id:"t21", text:"연락돌리기",          depth:1, urgent:false},
+          {id:"t22", text:"답례품 돌리기",       depth:1, urgent:false},
+          {id:"t23", text:"축의금 정산",         depth:0, urgent:false},
+          {id:"t24", text:"스냅/원판 사진 셀렉", depth:0, urgent:false},
+      ]},
+    ]},
+  { id:"house", title:"신혼집", icon:"🏠", cat:"h",
+    sections:[
+      { id:"before", title:"입주전", tasks:[
+          {id:"h1",  text:"기본 세팅",            depth:0, urgent:false},
+          {id:"h2",  text:"화장실 공사 (5/7)",    depth:1, urgent:false},
+          {id:"h3",  text:"도배 공사 (5/8)",      depth:1, urgent:false},
+          {id:"h4",  text:"입주청소 (5/10)",      depth:1, urgent:false},
+          {id:"h5",  text:"시스템행거",           depth:1, urgent:false},
+          {id:"h6",  text:"실측 (5/11)",          depth:2, urgent:false},
+          {id:"h7",  text:"설치 (미정)",           depth:2, urgent:false},
+          {id:"h8",  text:"가전가구",             depth:0, urgent:false},
+          {id:"h9",  text:"모션데스크 구매",       depth:1, urgent:false},
+          {id:"h10", text:"침대 배송 (5/15)",     depth:1, urgent:false},
+          {id:"h11", text:"이불/베개 구매",        depth:2, urgent:false},
+          {id:"h12", text:"메인가전 주문/설치",    depth:1, urgent:false},
+          {id:"h13", text:"에어컨",               depth:2, urgent:false},
+          {id:"h14", text:"세탁기/건조기",         depth:2, urgent:false},
+          {id:"h15", text:"냉장고",               depth:2, urgent:false},
+          {id:"h16", text:"스타일러",             depth:2, urgent:false},
+          {id:"h17", text:"인덕션",               depth:2, urgent:false},
+      ]},
+      { id:"after_house", title:"입주후", tasks:[
+          {id:"h18", text:"추가 가전가구",             depth:0, urgent:false},
+          {id:"h19", text:"미닉스 (음식물 처리기)",    depth:1, urgent:false},
+          {id:"h20", text:"조명",                     depth:1, urgent:false},
+          {id:"h21", text:"식탁/테이블",              depth:1, urgent:false},
+          {id:"h22", text:"인테리어",                 depth:0, urgent:false},
+          {id:"h23", text:"화장실 방수 타일/페인트",   depth:1, urgent:false},
+          {id:"h24", text:"주방 타일",                depth:1, urgent:false},
+          {id:"h25", text:"현관 데코타일",            depth:1, urgent:false},
+          {id:"h26", text:"주소지 일괄 변경",          depth:0, urgent:false},
+      ]},
+    ]},
+  { id:"honeymoon", title:"신혼여행", icon:"✈️", cat:"t",
+    sections:[
+      { id:"trip", title:"준비", tasks:[
+          {id:"tr1", text:"여행자보험 가입",        depth:0, urgent:false},
+          {id:"tr2", text:"여행 준비물 미리 구매",  depth:0, urgent:false},
+          {id:"tr3", text:"어댑터 구매 필요",       depth:1, urgent:false},
+          {id:"tr4", text:"환전/카드 챙기기",       depth:0, urgent:false},
+          {id:"tr5", text:"숙소바우처/e티켓",       depth:0, urgent:false},
+          {id:"tr6", text:"e심 구매",              depth:0, urgent:false},
+      ]},
+    ]},
+];
+
+const CK="wc5-ck", DK="wc5-dk";
+let checked  = JSON.parse(localStorage.getItem(CK)||"{}");
+let data     = JSON.parse(localStorage.getItem(DK)||"null") || JSON.parse(JSON.stringify(DEFAULT_DATA));
+let urgentOnly = false;
+
+function saveC(){ localStorage.setItem(CK,JSON.stringify(checked)); }
+function saveD(){ localStorage.setItem(DK,JSON.stringify(data)); }
+let _u=Date.now(); function uid(){ return "u"+(++_u); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function allTasks(){ return data.flatMap(c=>c.sections.flatMap(s=>s.tasks)); }
+
+// ── Urgent filter ─────────────────────────────────────────────────────────────
+function toggleUrgentFilter(){
+  urgentOnly = !urgentOnly;
+  document.getElementById("urgentToggle").classList.toggle("active", urgentOnly);
+  document.getElementById("urgentCount").classList.toggle("active-c", urgentOnly);
+  applyUrgentFilter();
+}
+function applyUrgentFilter(){
+  document.querySelectorAll(".task-row").forEach(row => {
+    if(!urgentOnly){ row.classList.remove("hide-non-urgent"); return; }
+    const isUrgent = row.classList.contains("is-urgent");
+    row.classList.toggle("hide-non-urgent", !isUrgent);
+  });
+}
+
+// ── Progress ──────────────────────────────────────────────────────────────────
+function updateProgress(){
+  const all=allTasks(), total=all.length, done=all.filter(t=>checked[t.id]).length;
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById("gfill").style.width=pct+"%";
+  document.getElementById("glabel").textContent=`${done} / ${total}`;
+
+  // urgent count
+  const urgentCount = all.filter(t=>t.urgent && !checked[t.id]).length;
+  document.getElementById("urgentCount").textContent = urgentCount;
+
+  data.forEach(cat=>{
+    const el=document.getElementById("cc-"+cat.id); if(!el) return;
+    const a=cat.sections.flatMap(s=>s.tasks),d=a.filter(t=>checked[t.id]).length;
+    el.textContent=`${d}/${a.length}`;
+  });
+  data.forEach(cat=>cat.sections.forEach(sec=>{
+    const el=document.getElementById("sc-"+cat.id+"-"+sec.id); if(!el) return;
+    el.textContent=`${sec.tasks.filter(t=>checked[t.id]).length}/${sec.tasks.length}`;
+  }));
+}
+
+// ── Toggle task ───────────────────────────────────────────────────────────────
+function toggleTask(tid){
+  checked[tid]=!checked[tid]; saveC();
+  const row=document.getElementById("row-"+tid);
+  row.classList.toggle("done",checked[tid]);
+  const box=row.querySelector(".chk");
+  box.textContent=checked[tid]?"✓":"";
+  box.classList.remove("pop"); void box.offsetWidth;
+  if(checked[tid]) box.classList.add("pop");
+  updateProgress();
+}
+
+// ── Toggle urgent ─────────────────────────────────────────────────────────────
+function toggleUrgent(cid, sid, tid, e){
+  e.stopPropagation();
+  const cat=data.find(c=>c.id===cid), sec=cat.sections.find(s=>s.id===sid);
+  const task=sec.tasks.find(t=>t.id===tid);
+  task.urgent = !task.urgent;
+  saveD();
+  const row=document.getElementById("row-"+tid);
+  row.classList.toggle("is-urgent", task.urgent);
+  if(urgentOnly && !task.urgent) row.classList.add("hide-non-urgent");
+  // badge
+  const existing = row.querySelector(".urgent-badge");
+  if(task.urgent && !existing){
+    const badge=document.createElement("span");
+    badge.className="urgent-badge"; badge.textContent="중요";
+    row.querySelector(".task-core").appendChild(badge);
+  } else if(!task.urgent && existing){
+    existing.remove();
+  }
+  updateProgress();
+}
+
+// ── Delete task ───────────────────────────────────────────────────────────────
+function delTask(cid,sid,tid,e){
+  e.stopPropagation();
+  const cat=data.find(c=>c.id===cid),sec=cat.sections.find(s=>s.id===sid);
+  sec.tasks=sec.tasks.filter(t=>t.id!==tid); delete checked[tid]; saveD(); saveC();
+  const row=document.getElementById("row-"+tid);
+  if(row){ row.style.cssText="transition:opacity .18s,transform .18s;opacity:0;transform:translateX(8px)";
+    setTimeout(()=>{row.remove();updateProgress();},190); }
+}
+
+// ── Add task form ─────────────────────────────────────────────────────────────
+function openForm(cid,sid,e){
+  e&&e.stopPropagation();
+  document.querySelectorAll(".add-form.open").forEach(f=>{if(f.dataset.k!==cid+"_"+sid)f.classList.remove("open");});
+  const f=document.getElementById("af-"+cid+"-"+sid);
+  f.classList.toggle("open");
+  if(f.classList.contains("open")) f.querySelector(".add-inp").focus();
+}
+function closeForm(cid,sid){
+  const f=document.getElementById("af-"+cid+"-"+sid);
+  f.classList.remove("open"); f.querySelector(".add-inp").value="";
+}
+function addTask(cid,sid){
+  const f=document.getElementById("af-"+cid+"-"+sid);
+  const inp=f.querySelector(".add-inp"),text=inp.value.trim();
+  if(!text){inp.style.borderColor="var(--blush)";inp.focus();return;}
+  inp.style.borderColor="";
+  const depth=parseInt(f.querySelector(".add-sel").value)||0;
+  const task={id:uid(),text,depth,urgent:false};
+  data.find(c=>c.id===cid).sections.find(s=>s.id===sid).tasks.push(task); saveD(); closeForm(cid,sid);
+  const list=document.getElementById("tl-"+cid+"-"+sid);
+  const div=document.createElement("div");
+  const catObj=data.find(c=>c.id===cid);
+  div.className=`task-row new task-cat-${catObj.cat}`;
+  div.id="row-"+task.id; div.dataset.depth=depth;
+  div.innerHTML=makeTaskHTML(cid,sid,task,catObj.cat);
+  list.insertBefore(div,document.getElementById("af-"+cid+"-"+sid));
+  if(urgentOnly) div.classList.add("hide-non-urgent");
+  updateProgress();
+}
+
+// ── Add section form ──────────────────────────────────────────────────────────
+function openSecForm(cid,e){
+  e&&e.stopPropagation();
+  document.querySelectorAll(".add-sec-form.open").forEach(f=>{ if(f.dataset.cid!==cid) f.classList.remove("open"); });
+  const f=document.getElementById("asf-"+cid);
+  f.classList.toggle("open");
+  if(f.classList.contains("open")) f.querySelector(".add-inp").focus();
+}
+function closeSecForm(cid){
+  const f=document.getElementById("asf-"+cid);
+  f.classList.remove("open"); f.querySelector(".add-inp").value="";
+}
+function addSection(cid){
+  const f=document.getElementById("asf-"+cid);
+  const inp=f.querySelector(".add-inp"), title=inp.value.trim();
+  if(!title){inp.style.borderColor="var(--blush)";inp.focus();return;}
+  inp.style.borderColor="";
+  const sid=uid();
+  const newSec={id:sid, title, tasks:[]};
+  data.find(c=>c.id===cid).sections.push(newSec); saveD(); closeSecForm(cid);
+
+  // inject section DOM before the add-sec-form
+  const catBody=document.getElementById("cb-"+cid);
+  const secDiv=document.createElement("div");
+  secDiv.innerHTML=makeSectionHTML(cid, newSec, data.find(c=>c.id===cid).cat);
+  catBody.insertBefore(secDiv.firstElementChild, document.getElementById("asf-"+cid));
+  updateProgress();
+}
+
+// ── Toggle section ────────────────────────────────────────────────────────────
+function toggleSec(cid,sid){
+  const b=document.getElementById("sb-"+cid+"-"+sid),a=document.getElementById("sa-"+cid+"-"+sid);
+  const h=b.style.display==="none"; b.style.display=h?"":"none"; a.style.transform=h?"":"rotate(-90deg)";
+}
+function toggleCat(cid){
+  const b=document.getElementById("cb-"+cid),a=document.getElementById("ca-"+cid);
+  const h=b.style.display==="none"; b.style.display=h?"":"none"; a.style.transform=h?"":"rotate(-90deg)";
+}
+function resetAll(){
+  if(!confirm("전체 체크를 초기화할까요?")) return;
+  checked={}; saveC(); render();
+}
+
+// ── HTML builders ─────────────────────────────────────────────────────────────
+function makeTaskHTML(cid,sid,t,cat){
+  const urgentBadge = t.urgent ? `<span class="urgent-badge">중요</span>` : "";
+  return `
+    <div class="task-core" onclick="toggleTask('${t.id}')">
+      <div class="chk">${checked[t.id]?"✓":""}</div>
+      <span class="task-txt">${esc(t.text)}</span>
+      ${urgentBadge}
+    </div>
+    <button class="imp-btn" title="중요 표시" onclick="toggleUrgent('${cid}','${sid}','${t.id}',event)">★</button>
+    <button class="del-btn" title="삭제" onclick="delTask('${cid}','${sid}','${t.id}',event)">✕</button>`;
+}
+
+function makeSectionHTML(cid, sec, cat){
+  const secDone=sec.tasks.filter(t=>checked[t.id]).length;
+  const tasksHTML=sec.tasks.map(t=>`
+    <div class="task-row ${checked[t.id]?"done":""} ${t.urgent?"is-urgent":""} task-cat-${cat}" id="row-${t.id}" data-depth="${t.depth}">
+      ${makeTaskHTML(cid,sec.id,t,cat)}
+    </div>`).join("");
+  return `<div>
+    <div class="sec-header" onclick="toggleSec('${cid}','${sec.id}')">
+      <span class="sec-tag">${esc(sec.title)}</span>
+      <span class="sec-count" id="sc-${cid}-${sec.id}">${secDone}/${sec.tasks.length}</span>
+      <button class="sec-add" onclick="openForm('${cid}','${sec.id}',event)">+</button>
+      <span class="sec-arrow" id="sa-${cid}-${sec.id}">▾</span>
+    </div>
+    <div id="sb-${cid}-${sec.id}">
+      <div class="task-list" id="tl-${cid}-${sec.id}">
+        ${tasksHTML}
+        <div class="add-form" id="af-${cid}-${sec.id}" data-k="${cid}_${sec.id}">
+          <div class="add-row">
+            <input class="add-inp" placeholder="할 일 입력" onkeydown="if(event.key==='Enter')addTask('${cid}','${sec.id}')"/>
+            <select class="add-sel">
+              <option value="0">1단계</option>
+              <option value="1">2단계</option>
+              <option value="2">3단계</option>
+            </select>
+          </div>
+          <div class="add-actions">
+            <button class="btn-cxl" onclick="closeForm('${cid}','${sec.id}')">취소</button>
+            <button class="btn-save" onclick="addTask('${cid}','${sec.id}')">추가</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function render(){
+  const body=document.getElementById("page-body"); body.innerHTML="";
+  data.forEach(cat=>{
+    const el=document.createElement("div"); el.className=`category cat-${cat.cat}`;
+    const allCT=cat.sections.flatMap(s=>s.tasks),catDone=allCT.filter(t=>checked[t.id]).length;
+    const secsHTML=cat.sections.map(sec=>makeSectionHTML(cat.id,sec,cat.cat)).join("");
+
+    el.innerHTML=`
+      <div class="cat-header" onclick="toggleCat('${cat.id}')">
         <div class="cat-icon-wrap">${cat.icon}</div>
+        <span class="cat-name">${esc(cat.title)}</span>
+        <span class="cat-pill" id="cc-${cat.id}">${catDone}/${allCT.length}</span>
+        <button class="cat-add-sec-btn" title="섹션 추가" onclick="openSecForm('${cat.id}',event)">+</button>
+        <span class="cat-arrow" id="ca-${cat.id}">▾</span>
+      </div>
+      <div id="cb-${cat.id}">
+        ${secsHTML}
+        <div class="add-sec-form" id="asf-${cat.id}" data-cid="${cat.id}">
+          <div class="add-sec-row">
+            <input class="add-inp" placeholder="새 섹션 이름 (예: 식전, 허니문 준비)" onkeydown="if(event.key==='Enter')addSection('${cat.id}')"/>
+          </div>
+          <div class="add-actions">
+            <button class="btn-cxl" onclick="closeSecForm('${cat.id}')">취소</button>
+            <button class="btn-save" onclick="addSection('${cat.id}')">섹션 추가</button>
+          </div>
+        </div>
+      </div>`;
+    body.appendChild(el);
+  });
+  updateProgress();
+  if(urgentOnly) applyUrgentFilter();
+}
+
+render();
+</script>
+</body>
+</html>
+
         <span class="cat-name">${esc(cat.title)}</span>
         <span class="cat-pill" id="cc-${cat.id}">${catDone} / ${allCT.length}</span>
         <span class="cat-arrow" id="ca-${cat.id}">▾</span>
